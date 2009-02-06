@@ -6,8 +6,13 @@ require 'actionpack'
 require 'action_controller'
 require 'action_view'
 require 'rspec_hpricot_matchers'
+require File.join(File.dirname(__FILE__), "../lib/happy_titles")
+
 Spec::Runner.configure do |config|
   config.include(RspecHpricotMatchers)
 end
 
-$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib')
+ActionView::Base.class_eval do
+  include HappyTitles
+  cattr_accessor :happy_title_settings
+end
