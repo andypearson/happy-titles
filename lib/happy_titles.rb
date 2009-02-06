@@ -1,6 +1,8 @@
 module HappyTitles
   
   @@happy_title_settings = {
+    :site => 'My Site',
+    :tagline => 'My short, descriptive and witty tagline',
     :templates => {
       :default => ['%s | %l', '%t | %s']
     }

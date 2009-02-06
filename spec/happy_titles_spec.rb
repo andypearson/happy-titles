@@ -13,7 +13,7 @@ describe 'Happy Titles!' do
     end
     
     it 'should respond to happy_title_settings class variable' do
-      puts ActionView::Base.happy_title_settings
+      ActionView::Base.happy_title_settings.should be_a(Hash)
     end
     
     it 'should respond to happy_title helper' do
@@ -22,6 +22,37 @@ describe 'Happy Titles!' do
     
     it 'should respond to title helper' do
       @view.should respond_to(:title)
+    end
+    
+  end
+  
+  describe 'default settings' do
+    
+    it 'should have a default site setting' do
+      ActionView::Base.happy_title_settings[:site].should == 'My Site'
+    end
+    it 'should have a default tagline setting' do
+      ActionView::Base.happy_title_settings[:tagline].should == 'My short, descriptive and witty tagline'
+    end
+    
+    describe 'templates' do
+      
+      it 'should have a list of templates' do
+        ActionView::Base.happy_title_settings[:templates].should be_a(Hash)
+      end
+      
+      it 'should have a default template' do
+        ActionView::Base.happy_title_settings[:templates][:default].should be_an(Array)
+      end
+      
+      it 'should have a default template for when the page title is not set' do
+        ActionView::Base.happy_title_settings[:templates][:default][0].should == '%s | %l'
+      end
+      
+      it 'should have a default template for when the page title is set' do
+        ActionView::Base.happy_title_settings[:templates][:default][1].should == '%t | %s'
+      end
+      
     end
     
   end
