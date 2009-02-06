@@ -70,7 +70,20 @@ describe 'Happy Titles!' do
     it 'should output a valid title element' do
       @view.happy_title.should have_tag('title')
     end
-  
+    
+    describe 'with default settings' do
+      
+      it 'should use the default template when the page title is not set' do
+        @view.happy_title.should have_tag('title', 'My Site | My short, descriptive and witty tagline')
+      end
+      
+      it 'should use the default template when the page title is set' do
+        @view.title('Example Page Title')
+        @view.happy_title.should have_tag('title', 'Example Page Title | My Site')
+      end
+      
+    end
+    
   end
   
 end
