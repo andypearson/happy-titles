@@ -16,6 +16,14 @@ describe 'Happy Titles!' do
       ActionView::Base.happy_title_settings.should be_a(Hash)
     end
     
+    it 'should respond to happy_title_template class method' do
+      ActionView::Base.should respond_to(:happy_title_template)
+    end
+    
+    it 'should respond to happy_title_setting class method' do
+      ActionView::Base.should respond_to(:happy_title_setting)
+    end
+    
     it 'should respond to happy_title helper' do
       @view.should respond_to(:happy_title)
     end
@@ -57,6 +65,36 @@ describe 'Happy Titles!' do
     
   end
   
+  describe 'custom settings' do
+    
+    before do
+      @default_site = ActionView::Base.happy_title_settings[:site]
+      @default_tagline = ActionView::Base.happy_title_settings[:tagline]
+      @default_templates = ActionView::Base.happy_title_settings[:templates]
+      ActionView::Base.happy_title_setting(:site, 'My Custom Site')
+    end
+    
+    after do
+      ActionView::Base.happy_title_setting(:site, @default_site)
+      ActionView::Base.happy_title_setting(:tagline, @default_tagline)
+      ActionView::Base.happy_title_setting(:templates, @default_templates)
+    end
+    
+    it 'should be able to change the default site' do
+      ActionView::Base.happy_title_settings[:site].should == 'My Custom Site'
+    end
+    
+    it 'should be able to change the default tagline'
+    
+    describe 'templates' do
+    
+      it 'should be able to change the default templates'
+      it 'should be able to add a new template'
+    
+    end
+    
+  end
+  
   describe 'setting the title' do
     
     it 'should set the title' do
@@ -70,6 +108,8 @@ describe 'Happy Titles!' do
     it 'should output a valid title element' do
       @view.happy_title.should have_tag('title')
     end
+    
+    it 'should escape HTML and entities in the title element'
     
     describe 'with default settings' do
       

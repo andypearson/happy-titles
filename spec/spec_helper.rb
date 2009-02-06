@@ -14,5 +14,4 @@ end
 
 ActionView::Base.class_eval do
   include HappyTitles
-  cattr_accessor :happy_title_settings
 end
