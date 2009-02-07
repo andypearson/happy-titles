@@ -54,11 +54,11 @@ describe 'Happy Titles!' do
       end
       
       it 'should have a default template for when the page title is not set' do
-        ActionView::Base.happy_title_settings[:templates][:default][0].should == '%s | %l'
+        ActionView::Base.happy_title_settings[:templates][:default][0].should == ':site | :title'
       end
       
       it 'should have a default template for when the page title is set' do
-        ActionView::Base.happy_title_settings[:templates][:default][1].should == '%t | %s'
+        ActionView::Base.happy_title_settings[:templates][:default][1].should == ':title | :site'
       end
       
     end
@@ -98,18 +98,18 @@ describe 'Happy Titles!' do
       end
       
       it 'should be able to change the default templates' do
-        ActionView::Base.happy_title_template(:default, '[%s] %l', '[%s] %t')
-        ActionView::Base.happy_title_settings[:templates][:default].should == ['[%s] %l', '[%s] %t']
+        ActionView::Base.happy_title_template(:default, '[:site] :title', ':title at :site')
+        ActionView::Base.happy_title_settings[:templates][:default].should == ['[:site] :title', ':title at :site']
       end
       
       it 'should be able to add a new template' do
-        ActionView::Base.happy_title_template(:new_template, '[%s] %l', '[%s] %t')
-        ActionView::Base.happy_title_settings[:templates][:new_template].should == ['[%s] %l', '[%s] %t']
+        ActionView::Base.happy_title_template(:new_template, '[:site] :title', ':title at :site')
+        ActionView::Base.happy_title_settings[:templates][:new_template].should == ['[:site] :title', ':title at :site']
       end
       
       it 'should be able to add a new template with one format' do
-        ActionView::Base.happy_title_template(:new_template, '[%s] %l')
-        ActionView::Base.happy_title_settings[:templates][:new_template].should == ['[%s] %l']
+        ActionView::Base.happy_title_template(:new_template, '[:site] :title')
+        ActionView::Base.happy_title_settings[:templates][:new_template].should == ['[:site] :title']
       end
       
     end
@@ -119,7 +119,29 @@ describe 'Happy Titles!' do
   describe 'setting the title' do
     
     it 'should set the title' do
-      @view.title("Happy Title!").should eql("Happy Title!")
+      @view.title("Happy Title!")
+      @view.send(:page_title).should eql("Happy Title!")
+    end
+    
+    it 'should overwrite a privously set title' do
+      @view.title('First Page Title')
+      @view.title('Second Page Title')
+      @view.page_title.should eql("Second Page Title")
+    end
+    
+    it 'should strip HTML elements from the title' do
+      @view.title('<strong>Cat is</strong>!')
+      @view.page_title.should eql('Cat is!')
+    end
+
+    it 'should escape special entities in the title element' do
+      @view.title('This & That')
+      @view.page_title.should eql('This &amp; That')
+    end
+    
+    it 'should handle a mix of HTML and special entities' do
+      @view.title('<strong>This & That</strong>')
+      @view.page_title.should eql('This &amp; That')
     end
     
   end
@@ -129,9 +151,6 @@ describe 'Happy Titles!' do
     it 'should output a valid title element' do
       @view.happy_title.should have_tag('title')
     end
-    
-    it 'should strip HTML elements from the title'
-    it 'should escape special entities in the title element'
     
     describe 'with default settings' do
       

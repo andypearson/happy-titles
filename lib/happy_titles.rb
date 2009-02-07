@@ -1,10 +1,12 @@
 module HappyTitles
   
+  attr_accessor :page_title
+  
   @@happy_title_settings = {
     :site => 'My Site',
     :tagline => 'My short, descriptive and witty tagline',
     :templates => {
-      :default => ['%s | %l', '%t | %s']
+      :default => [':site | :title', ':title | :site']
     }
   }
   
@@ -13,7 +15,7 @@ module HappyTitles
   end
   
   def title(page_title)
-    @page_title = page_title
+    @page_title = h(page_title.gsub(/<\/?[^>]*>/, '')) if page_title
   end
   
   def self.included(base)
@@ -34,21 +36,6 @@ module HappyTitles
     end
   end
   
-  # module ClassMethods
-  #   
-  #   def happy_title_settings
-  #     @happy_title_settings
-  #   end
-  #   
-  #   def happy_title_template
-  #   end
-  #   
-  #   def happy_title_setting(key, value)
-  #     @happy_title_settings[key] = value
-  #   end
-  #   
-  # end
-  
   private
     
     def render_title_template(template_key)
@@ -58,10 +45,14 @@ module HappyTitles
     
     def substitute_placeholders(template)
       title = template
-      title.gsub!('%t', @page_title) if @page_title
-      title.gsub!('%s', @@happy_title_settings[:site])
-      title.gsub!('%l', @@happy_title_settings[:tagline])
+      title.gsub!(':title', title_text)
+      title.gsub!(':site', @@happy_title_settings[:site])
+      title.gsub!(':tagline', @@happy_title_settings[:tagline])
       title
+    end
+    
+    def title_text
+      (@page_title) ? @page_title : @@happy_title_settings[:tagline]
     end
     
 end
