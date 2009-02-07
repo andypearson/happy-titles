@@ -39,16 +39,15 @@ module HappyTitles
   private
     
     def render_title_template(template_key)
-      key = (@page_title) ? 1 : 0
+      key = (@page_title && @@happy_title_settings[:templates][template_key][1]) ? 1 : 0
       substitute_placeholders(@@happy_title_settings[:templates][template_key][key])
     end
     
     def substitute_placeholders(template)
       title = template
-      title.gsub!(':title', title_text)
-      title.gsub!(':site', @@happy_title_settings[:site])
-      title.gsub!(':tagline', @@happy_title_settings[:tagline])
-      title
+      title = title.gsub(':title', title_text)
+      title = title.gsub(':site', @@happy_title_settings[:site])
+      title = title.gsub(':tagline', @@happy_title_settings[:tagline])
     end
     
     def title_text

@@ -68,8 +68,8 @@ describe 'Happy Titles!' do
   describe 'custom settings' do
     
     before do
-      @default_site = ActionView::Base.happy_title_settings[:site]
-      @default_tagline = ActionView::Base.happy_title_settings[:tagline]
+      @default_site = ActionView::Base.happy_title_settings[:site].dup
+      @default_tagline = ActionView::Base.happy_title_settings[:tagline].dup
     end
     
     after do
@@ -161,6 +161,68 @@ describe 'Happy Titles!' do
       it 'should use the default template when the page title is set' do
         @view.title('Example Page Title')
         @view.happy_title.should have_tag('title', 'Example Page Title | My Site')
+      end
+      
+    end
+    
+    describe 'with custom settings' do
+      
+      before do
+        @default_site = ActionView::Base.happy_title_settings[:site].dup
+        @default_tagline = ActionView::Base.happy_title_settings[:tagline].dup
+      end
+      
+      after do
+        ActionView::Base.happy_title_setting(:site, @default_site)
+        ActionView::Base.happy_title_setting(:tagline, @default_tagline)
+      end
+      
+      it 'should render the title with a custom site' do
+        ActionView::Base.happy_title_setting(:site, 'Custom Site')
+        @view.happy_title.should have_tag('title', 'Custom Site | My short, descriptive and witty tagline')
+      end
+      
+      it 'should render the title with a custom tagline' do
+        ActionView::Base.happy_title_setting(:tagline, 'My custom tagline...')
+        @view.happy_title.should have_tag('title', 'My Site | My custom tagline...')
+      end
+      
+      describe '(templates)' do
+        
+        before do
+          @default_templates = ActionView::Base.happy_title_settings[:templates].dup
+        end
+
+        after do
+          ActionView::Base.happy_title_settings[:templates] = @default_templates
+        end
+        
+        describe 'template with a single format' do
+          
+          before do
+            ActionView::Base.happy_title_template(:default, '[:site] :title')
+          end
+          
+          it 'should render the template when the title is not set' do
+            @view.happy_title.should have_tag('title', '[My Site] My short, descriptive and witty tagline')
+          end
+          
+          it 'should render the template when the title is set' do
+            @view.title('Another example title')
+            @view.happy_title.should have_tag('title', '[My Site] Another example title')
+          end
+          
+        end
+        
+        describe 'template with two formats' do
+          it 'should render the template when the title is not set'
+          it 'should render the alternate template when the title is set'
+        end
+        
+        describe 'using a custom template' do
+          it 'should use the custom template to render the title'
+        end
+        
       end
       
     end
