@@ -21,7 +21,10 @@ module HappyTitles
       
       cattr_accessor :happy_title_settings
 
-      def self.happy_title_template
+      def self.happy_title_template(template_key, format, additional_format = nil)
+        template = [format]
+        template << additional_format if additional_format
+        @@happy_title_settings[:templates][template_key] = template
       end
 
       def self.happy_title_setting(key, value)

@@ -70,27 +70,48 @@ describe 'Happy Titles!' do
     before do
       @default_site = ActionView::Base.happy_title_settings[:site]
       @default_tagline = ActionView::Base.happy_title_settings[:tagline]
-      @default_templates = ActionView::Base.happy_title_settings[:templates]
-      ActionView::Base.happy_title_setting(:site, 'My Custom Site')
     end
     
     after do
       ActionView::Base.happy_title_setting(:site, @default_site)
       ActionView::Base.happy_title_setting(:tagline, @default_tagline)
-      ActionView::Base.happy_title_setting(:templates, @default_templates)
     end
     
     it 'should be able to change the default site' do
+      ActionView::Base.happy_title_setting(:site, 'My Custom Site')
       ActionView::Base.happy_title_settings[:site].should == 'My Custom Site'
     end
     
-    it 'should be able to change the default tagline'
+    it 'should be able to change the default tagline' do
+      ActionView::Base.happy_title_setting(:tagline, 'My very custom tagline')
+      ActionView::Base.happy_title_settings[:tagline].should == 'My very custom tagline'
+    end
     
     describe 'templates' do
-    
-      it 'should be able to change the default templates'
-      it 'should be able to add a new template'
-    
+      
+      before do
+        @default_templates = ActionView::Base.happy_title_settings[:templates].dup
+      end
+      
+      after do
+        ActionView::Base.happy_title_settings[:templates] = @default_templates
+      end
+      
+      it 'should be able to change the default templates' do
+        ActionView::Base.happy_title_template(:default, '[%s] %l', '[%s] %t')
+        ActionView::Base.happy_title_settings[:templates][:default].should == ['[%s] %l', '[%s] %t']
+      end
+      
+      it 'should be able to add a new template' do
+        ActionView::Base.happy_title_template(:new_template, '[%s] %l', '[%s] %t')
+        ActionView::Base.happy_title_settings[:templates][:new_template].should == ['[%s] %l', '[%s] %t']
+      end
+      
+      it 'should be able to add a new template with one format' do
+        ActionView::Base.happy_title_template(:new_template, '[%s] %l')
+        ActionView::Base.happy_title_settings[:templates][:new_template].should == ['[%s] %l']
+      end
+      
     end
     
   end
@@ -109,7 +130,8 @@ describe 'Happy Titles!' do
       @view.happy_title.should have_tag('title')
     end
     
-    it 'should escape HTML and entities in the title element'
+    it 'should strip HTML elements from the title'
+    it 'should escape special entities in the title element'
     
     describe 'with default settings' do
       
