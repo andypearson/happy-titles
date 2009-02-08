@@ -215,12 +215,36 @@ describe 'Happy Titles!' do
         end
         
         describe 'template with two formats' do
-          it 'should render the template when the title is not set'
-          it 'should render the alternate template when the title is set'
+          
+          before do
+            ActionView::Base.happy_title_template(:default, '[:site] :title', ':title at :site')
+          end
+          
+          it 'should render the template when the title is not set' do
+            @view.happy_title.should have_tag('title', '[My Site] My short, descriptive and witty tagline')
+          end
+          
+          it 'should render the alternate template when the title is set' do
+            @view.title('Would of thought these titles would of got a bit funnier by now')
+            @view.happy_title.should have_tag('title', 'Would of thought these titles would of got a bit funnier by now at My Site')
+          end
         end
         
         describe 'using a custom template' do
-          it 'should use the custom template to render the title'
+          
+          before do
+            ActionView::Base.happy_title_template(:custom, '++:site++', ':title ++:site++')
+          end
+          
+          it 'should render a custom template when the title is not set' do
+            @view.happy_title(:custom).should have_tag('title', '++My Site++')
+          end
+          
+          it 'should render a custom template when the title is not set' do
+            @view.title('Fraid not, I got nothing')
+            @view.happy_title(:custom).should have_tag('title', 'Fraid not, I got nothing ++My Site++')
+          end
+            
         end
         
       end
