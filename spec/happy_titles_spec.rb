@@ -120,7 +120,7 @@ describe 'Happy Titles!' do
     
     it 'should set the title' do
       @view.title("Happy Title!")
-      @view.send(:page_title).should eql("Happy Title!")
+      @view.send(:page_title).should == "Happy Title!"
     end
     
     it 'should overwrite a privously set title' do
@@ -142,6 +142,24 @@ describe 'Happy Titles!' do
     it 'should handle a mix of HTML and special entities' do
       @view.title('<strong>This & That</strong>')
       @view.page_title.should eql('This &amp; That')
+    end
+    
+  end
+  
+  describe 'reading the title method' do
+    
+    it 'should return an empty string when called with no args' do
+      @view.title.should == ''
+    end
+    
+    it 'should return @page_title when @page_title is set and is called with no args' do
+      @view.title('Happy Title!')
+      @view.title.should == 'Happy Title!'
+    end
+    
+    it 'should not set the title when called with no args' do
+      @view.title
+      @view.happy_title.should have_tag('title', 'My Site | My short, descriptive and witty tagline')
     end
     
   end

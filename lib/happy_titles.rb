@@ -14,8 +14,12 @@ module HappyTitles
     content_tag(:title, render_title_template(template_key))
   end
   
-  def title(page_title)
-    @page_title = h(page_title.gsub(/<\/?[^>]*>/, '')) if page_title
+  def title(page_title = nil)
+    if page_title
+      @page_title = h(page_title.gsub(/<\/?[^>]*>/, '')) if page_title
+    else
+      @page_title || ''
+    end
   end
   
   def self.included(base)
