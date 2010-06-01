@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{happy-titles}
-  s.version = "0.9.0"
+  s.version = "0.9.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Andy Pearson"]
@@ -16,12 +16,14 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     ".git_ignore",
+     ".gitignore",
      "MIT-LICENCE",
      "README.markdown",
      "Rakefile",
      "VERSION",
-     "init.rb",
+     "happy-titles.gemspec",
      "lib/happy_titles.rb",
+     "rails/init.rb",
      "spec/happy_titles_spec.rb",
      "spec/spec_helper.rb"
   ]
