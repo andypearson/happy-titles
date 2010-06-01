@@ -1,12 +1,18 @@
 # Happy Titles!
 
-A simple Rails plugin which adds an easy (and cheerful) way to handle page titles in your layouts.
+A simple (and cheerful) way to handle page titles in your layouts.
 
 ## Getting Started
 
-### Install the Plugin
+### Install the Gem
 
-	script/plugin install git://github.com/andypearson/happy-titles.git
+Run the following:
+
+	sudo gem install happy-titles
+	
+And add it to your environment.rb configuration as a gem dependency:
+
+	config.gem "happy-titles", :lib => 'happy_titles'
 	
 ### Set the Defaults
 
