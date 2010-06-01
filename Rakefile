@@ -16,6 +16,7 @@ begin
     gemspec.homepage = "http://github.com/andypearson/happy-titles"
     gemspec.authors = ["Andy Pearson"]
   end
+  Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"
 end
