@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{happy-titles}
-  s.version = "0.9.1"
+  s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Andy Pearson"]
-  s.date = %q{2010-06-01}
+  s.date = %q{2010-09-14}
   s.email = %q{andy@andy-pearson.com}
   s.extra_rdoc_files = [
     "README.markdown"
@@ -22,7 +22,9 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "happy-titles.gemspec",
-     "lib/happy_titles.rb",
+     "init.rb",
+     "lib/happy-titles.rb",
+     "lib/happy-titles/railtie.rb",
      "rails/init.rb",
      "spec/happy_titles_spec.rb",
      "spec/spec_helper.rb"
