@@ -1,3 +1,5 @@
+require File.join(File.dirname(__FILE__), *%w[happy-titles railtie]) if defined?(::Rails::Railtie)
+
 module HappyTitles
   
   attr_accessor :page_title

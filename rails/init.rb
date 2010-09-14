@@ -1,2 +1,2 @@
-require File.join(File.dirname(__FILE__), *%w[.. lib happy_titles])
-ActionView::Base.send(:include, HappyTitles)
+# coding: utf-8
+require File.expand_path(File.join(File.dirname(__FILE__), "..", "init"))

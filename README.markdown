@@ -6,6 +6,14 @@ A simple (and cheerful) way to handle page titles in your layouts.
 
 ### Install the Gem
 
+#### In Rails 3
+
+Add the following to your Gemfile
+    
+    gem 'happy-titles'
+
+#### In Rails 2
+
 Run the following:
 
 	sudo gem install happy-titles
