@@ -14,7 +14,7 @@ gem 'hpricot', '>= 0.6.1'
 gem 'rspec_tag_matchers', '>= 1.0.0'
 require 'rspec_tag_matchers'
 
-require File.join(File.dirname(__FILE__), "../lib/happy_titles")
+require File.join(File.dirname(__FILE__), "../lib/happy-titles")
 
 Spec::Runner.configure do |config|
   config.include(RspecTagMatchers)
