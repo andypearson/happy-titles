@@ -1,10 +1,11 @@
+require 'rubygems'
 require 'rake'
-require 'spec/rake/spectask'
+require 'rspec/core/rake_task'
 
 desc 'Test the happy-titles plugin.'
-Spec::Rake::SpecTask.new('spec') do |t|
-  t.spec_files = FileList['spec/**/*_spec.rb']
-  t.spec_opts = ["-c"]
+RSpec::Core::RakeTask.new('spec') do |t|
+  t.pattern = FileList['spec/*_spec.rb']
+  t.rspec_opts = ['-c']
 end
 
 begin
