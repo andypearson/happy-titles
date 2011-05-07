@@ -19,10 +19,11 @@ module HappyTitles
   def title(page_title = nil, settings = {})
 
     if page_title && page_title.is_a?(Hash)
-      @happy_title_settings = page_title
-      page_title = @happy_title_settings[:title] ? @happy_title_settings[:title] : nil
+      settings = page_title
+      page_title = settings[:title] ? settings[:title] : nil
     end
     
+    @happy_title_settings = settings
     if page_title
       @page_title = h(page_title.gsub(/<\/?[^>]*>/, '')) if page_title
     else

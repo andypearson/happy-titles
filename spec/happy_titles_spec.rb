@@ -183,6 +183,11 @@ describe 'Happy Titles!' do
       @view.happy_title.should have_tag('title', 'My Site | My short, descriptive and witty tagline')
     end
     
+    it 'should allow you to set the title seperatly' do
+      @view.title('Custom page title', :site => 'Overridden Tagline')
+      @view.happy_title.should have_tag('title', 'Custom page title | Overridden Tagline')
+    end
+    
   end
   
   describe 'reading the title method' do
