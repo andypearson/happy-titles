@@ -16,12 +16,19 @@ module HappyTitles
     content_tag(:title, render_title_template(template_key))
   end
   
-  def title(page_title = nil)
+  def title(page_title = nil, settings = {})
+
+    if page_title && page_title.is_a?(Hash)
+      @happy_title_settings = page_title
+      page_title = @happy_title_settings[:title] ? @happy_title_settings[:title] : nil
+    end
+    
     if page_title
       @page_title = h(page_title.gsub(/<\/?[^>]*>/, '')) if page_title
     else
       @page_title || ''
     end
+    
   end
   
   def self.included(base)
@@ -46,18 +53,25 @@ module HappyTitles
     
     def render_title_template(template_key)
       key = (@page_title && @@happy_title_settings[:templates][template_key][1]) ? 1 : 0
-      substitute_placeholders(@@happy_title_settings[:templates][template_key][key])
+      template = read_happy_title_setting(:template) ? read_happy_title_setting(:template) : @@happy_title_settings[:templates][template_key][key]
+      substitute_placeholders(template)
     end
     
     def substitute_placeholders(template)
       title = template
       title = title.gsub(':title', title_text)
-      title = title.gsub(':site', @@happy_title_settings[:site])
-      title = title.gsub(':tagline', @@happy_title_settings[:tagline])
+      title = title.gsub(':site', read_happy_title_setting(:site))
+      title = title.gsub(':tagline', read_happy_title_setting(:tagline))
+    end
+    
+    def read_happy_title_setting(key)
+      setting = @@happy_title_settings[key]
+      setting = @happy_title_settings[key] if @happy_title_settings && !@happy_title_settings[key].blank?
+      setting
     end
     
     def title_text
-      (@page_title) ? @page_title : @@happy_title_settings[:tagline]
+      (@page_title) ? @page_title : read_happy_title_setting(:tagline)
     end
     
 end

@@ -120,7 +120,7 @@ describe 'Happy Titles!' do
     
     it 'should set the title' do
       @view.title("Happy Title!")
-      @view.send(:page_title).should == "Happy Title!"
+      @view.page_title.should == "Happy Title!"
     end
     
     it 'should overwrite a privously set title' do
@@ -142,6 +142,45 @@ describe 'Happy Titles!' do
     it 'should handle a mix of HTML and special entities' do
       @view.title('<strong>This & That</strong>')
       @view.page_title.should eql('This &amp; That')
+    end
+    
+  end
+  
+  describe 'setting the title with a hash' do
+    
+    it 'should overwite the title' do
+      @view.title(:title => 'My page title')
+      @view.happy_title.should have_tag('title', 'My page title | My Site')
+    end
+    
+    it 'should overwrite the site' do
+      @view.title(:site => 'Overridden Site')
+      @view.happy_title.should have_tag('title', 'Overridden Site | My short, descriptive and witty tagline')
+    end
+    
+    it 'should not overwrite the site if the provided value is blank' do
+      @view.title(:site => '')
+      @view.happy_title.should have_tag('title', 'My Site | My short, descriptive and witty tagline')
+    end
+    
+    it 'should overwrite the tagline' do
+      @view.title(:tagline => 'Overridden Tagline')
+      @view.happy_title.should have_tag('title', 'My Site | Overridden Tagline')
+    end
+      
+    it 'should not overwrite the tagline if the provided value is blank' do
+      @view.title(:tagline => '')
+      @view.happy_title.should have_tag('title', 'My Site | My short, descriptive and witty tagline')
+    end
+    
+    it 'should overwrite the template' do
+      @view.title(:template => '[[:site]] -- :title')
+      @view.happy_title.should have_tag('title', '[[My Site]] -- My short, descriptive and witty tagline')
+    end
+    
+    it 'should not overwrite the template if the provided value is blank' do
+      @view.title(:template => '')
+      @view.happy_title.should have_tag('title', 'My Site | My short, descriptive and witty tagline')
     end
     
   end
