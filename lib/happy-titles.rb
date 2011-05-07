@@ -68,6 +68,7 @@ module HappyTitles
     def read_happy_title_setting(key)
       setting = @@happy_title_settings[key]
       setting = @happy_title_settings[key] if @happy_title_settings && !@happy_title_settings[key].blank?
+      setting = setting.call if setting.is_a?(Proc)
       setting
     end
     

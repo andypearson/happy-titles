@@ -4,6 +4,13 @@ describe 'Happy Titles!' do
   
   before do
     @view = ActionView::Base.new
+    @default_site = ActionView::Base.happy_title_settings[:site].dup
+    @default_tagline = ActionView::Base.happy_title_settings[:tagline].dup
+  end
+  
+  after do
+    ActionView::Base.happy_title_setting(:site, @default_site)
+    ActionView::Base.happy_title_setting(:tagline, @default_tagline)
   end
   
   describe 'after loading the plugin' do
@@ -66,16 +73,6 @@ describe 'Happy Titles!' do
   end
   
   describe 'custom settings' do
-    
-    before do
-      @default_site = ActionView::Base.happy_title_settings[:site].dup
-      @default_tagline = ActionView::Base.happy_title_settings[:tagline].dup
-    end
-    
-    after do
-      ActionView::Base.happy_title_setting(:site, @default_site)
-      ActionView::Base.happy_title_setting(:tagline, @default_tagline)
-    end
     
     it 'should be able to change the default site' do
       ActionView::Base.happy_title_setting(:site, 'My Custom Site')
@@ -186,6 +183,21 @@ describe 'Happy Titles!' do
     it 'should allow you to set the title seperatly' do
       @view.title('Custom page title', :site => 'Overridden Tagline')
       @view.happy_title.should have_tag('title', 'Custom page title | Overridden Tagline')
+    end
+    
+  end
+  
+  describe 'procs as settings' do
+    
+    it 'should allow a proc for the site name and tagline' do
+      @view.title(:site => Proc.new { "Site Number #{2 + 2}" }, :tagline => Proc.new { "Tagline Number #{12 - 8}" })
+      @view.happy_title.should have_tag('title', 'Site Number 4 | Tagline Number 4')
+    end
+    
+    it 'should allow a proc for the site name and tagline from settings' do
+      ActionView::Base.happy_title_setting(:site, Proc.new { "Site Number #{3 + 3}" })
+      ActionView::Base.happy_title_setting(:tagline, Proc.new { "Tagline Number #{10 - 4}" })
+      @view.happy_title.should have_tag('title', 'Site Number 6 | Tagline Number 6')
     end
     
   end
