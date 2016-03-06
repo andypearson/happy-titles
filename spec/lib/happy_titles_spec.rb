@@ -14,27 +14,27 @@ describe 'Happy Titles!' do
   describe 'after loading the plugin' do
 
     it "should be mixed into ActionView::Base" do
-      ActionView::Base.included_modules.include?(HappyTitles).should be true
+      expect(ActionView::Base.included_modules.include?(HappyTitles)).to be true
     end
 
     it 'should respond to happy_title_settings class variable' do
-      ActionView::Base.happy_title_settings.should be_a(Hash)
+      expect(ActionView::Base.happy_title_settings).to be_a(Hash)
     end
 
     it 'should respond to happy_title_template class method' do
-      ActionView::Base.should respond_to(:happy_title_template)
+      expect(ActionView::Base).to respond_to(:happy_title_template)
     end
 
     it 'should respond to happy_title_setting class method' do
-      ActionView::Base.should respond_to(:happy_title_setting)
+      expect(ActionView::Base).to respond_to(:happy_title_setting)
     end
 
     it 'should respond to happy_title helper' do
-      @view.should respond_to(:happy_title)
+      expect(@view).to respond_to(:happy_title)
     end
 
     it 'should respond to title helper' do
-      @view.should respond_to(:title)
+      expect(@view).to respond_to(:title)
     end
 
   end
@@ -42,28 +42,28 @@ describe 'Happy Titles!' do
   describe 'default settings' do
 
     it 'should have a default site setting' do
-      ActionView::Base.happy_title_settings[:site].should == 'My Site'
+      expect(ActionView::Base.happy_title_settings[:site]).to eq('My Site')
     end
     it 'should have a default tagline setting' do
-      ActionView::Base.happy_title_settings[:tagline].should == 'My short, descriptive and witty tagline'
+      expect(ActionView::Base.happy_title_settings[:tagline]).to eq('My short, descriptive and witty tagline')
     end
 
     describe 'templates' do
 
       it 'should have a list of templates' do
-        ActionView::Base.happy_title_settings[:templates].should be_a(Hash)
+        expect(ActionView::Base.happy_title_settings[:templates]).to be_a(Hash)
       end
 
       it 'should have a default template' do
-        ActionView::Base.happy_title_settings[:templates][:default].should be_an(Array)
+        expect(ActionView::Base.happy_title_settings[:templates][:default]).to be_an(Array)
       end
 
       it 'should have a default template for when the page title is not set' do
-        ActionView::Base.happy_title_settings[:templates][:default][0].should == ':site | :title'
+        expect(ActionView::Base.happy_title_settings[:templates][:default][0]).to eq(':site | :title')
       end
 
       it 'should have a default template for when the page title is set' do
-        ActionView::Base.happy_title_settings[:templates][:default][1].should == ':title | :site'
+        expect(ActionView::Base.happy_title_settings[:templates][:default][1]).to eq(':title | :site')
       end
 
     end
@@ -74,12 +74,12 @@ describe 'Happy Titles!' do
 
     it 'should be able to change the default site' do
       ActionView::Base.happy_title_setting(:site, 'My Custom Site')
-      ActionView::Base.happy_title_settings[:site].should == 'My Custom Site'
+      expect(ActionView::Base.happy_title_settings[:site]).to eq('My Custom Site')
     end
 
     it 'should be able to change the default tagline' do
       ActionView::Base.happy_title_setting(:tagline, 'My very custom tagline')
-      ActionView::Base.happy_title_settings[:tagline].should == 'My very custom tagline'
+      expect(ActionView::Base.happy_title_settings[:tagline]).to eq('My very custom tagline')
     end
 
     describe 'templates' do
@@ -94,17 +94,17 @@ describe 'Happy Titles!' do
 
       it 'should be able to change the default templates' do
         ActionView::Base.happy_title_template(:default, '[:site] :title', ':title at :site')
-        ActionView::Base.happy_title_settings[:templates][:default].should == ['[:site] :title', ':title at :site']
+        expect(ActionView::Base.happy_title_settings[:templates][:default]).to eq(['[:site] :title', ':title at :site'])
       end
 
       it 'should be able to add a new template' do
         ActionView::Base.happy_title_template(:new_template, '[:site] :title', ':title at :site')
-        ActionView::Base.happy_title_settings[:templates][:new_template].should == ['[:site] :title', ':title at :site']
+        expect(ActionView::Base.happy_title_settings[:templates][:new_template]).to eq(['[:site] :title', ':title at :site'])
       end
 
       it 'should be able to add a new template with one format' do
         ActionView::Base.happy_title_template(:new_template, '[:site] :title')
-        ActionView::Base.happy_title_settings[:templates][:new_template].should == ['[:site] :title']
+        expect(ActionView::Base.happy_title_settings[:templates][:new_template]).to eq(['[:site] :title'])
       end
 
     end
@@ -115,28 +115,28 @@ describe 'Happy Titles!' do
 
     it 'should set the title' do
       @view.title("Happy Title!")
-      @view.page_title.should == "Happy Title!"
+      expect(@view.page_title).to eq("Happy Title!")
     end
 
     it 'should overwrite a privously set title' do
       @view.title('First Page Title')
       @view.title('Second Page Title')
-      @view.page_title.should eql("Second Page Title")
+      expect(@view.page_title).to eq("Second Page Title")
     end
 
     it 'should strip HTML elements from the title' do
       @view.title('<strong>Cat is</strong>!')
-      @view.page_title.should eql('Cat is!')
+      expect(@view.page_title).to eq('Cat is!')
     end
 
     it 'should escape special entities in the title element' do
       @view.title('This & That')
-      @view.page_title.should eql('This &amp; That')
+      expect(@view.page_title).to eq('This &amp; That')
     end
 
     it 'should handle a mix of HTML and special entities' do
       @view.title('<strong>This & That</strong>')
-      @view.page_title.should eql('This &amp; That')
+      expect(@view.page_title).to eq('This &amp; That')
     end
 
   end
@@ -145,42 +145,42 @@ describe 'Happy Titles!' do
 
     it 'should overwite the title' do
       @view.title(:title => 'My page title')
-      @view.happy_title.should have_tag('title', 'My page title | My Site')
+      expect(@view.happy_title).to have_tag('title', 'My page title | My Site')
     end
 
     it 'should overwrite the site' do
       @view.title(:site => 'Overridden Site')
-      @view.happy_title.should have_tag('title', 'Overridden Site | My short, descriptive and witty tagline')
+      expect(@view.happy_title).to have_tag('title', 'Overridden Site | My short, descriptive and witty tagline')
     end
 
     it 'should not overwrite the site if the provided value is blank' do
       @view.title(:site => '')
-      @view.happy_title.should have_tag('title', 'My Site | My short, descriptive and witty tagline')
+      expect(@view.happy_title).to have_tag('title', 'My Site | My short, descriptive and witty tagline')
     end
 
     it 'should overwrite the tagline' do
       @view.title(:tagline => 'Overridden Tagline')
-      @view.happy_title.should have_tag('title', 'My Site | Overridden Tagline')
+      expect(@view.happy_title).to have_tag('title', 'My Site | Overridden Tagline')
     end
 
     it 'should not overwrite the tagline if the provided value is blank' do
       @view.title(:tagline => '')
-      @view.happy_title.should have_tag('title', 'My Site | My short, descriptive and witty tagline')
+      expect(@view.happy_title).to have_tag('title', 'My Site | My short, descriptive and witty tagline')
     end
 
     it 'should overwrite the template' do
       @view.title(:template => '[[:site]] -- :title')
-      @view.happy_title.should have_tag('title', '[[My Site]] -- My short, descriptive and witty tagline')
+      expect(@view.happy_title).to have_tag('title', '[[My Site]] -- My short, descriptive and witty tagline')
     end
 
     it 'should not overwrite the template if the provided value is blank' do
       @view.title(:template => '')
-      @view.happy_title.should have_tag('title', 'My Site | My short, descriptive and witty tagline')
+      expect(@view.happy_title).to have_tag('title', 'My Site | My short, descriptive and witty tagline')
     end
 
     it 'should allow you to set the title seperatly' do
       @view.title('Custom page title', :site => 'Overridden Tagline')
-      @view.happy_title.should have_tag('title', 'Custom page title | Overridden Tagline')
+      expect(@view.happy_title).to have_tag('title', 'Custom page title | Overridden Tagline')
     end
 
   end
@@ -189,13 +189,13 @@ describe 'Happy Titles!' do
 
     it 'should allow a proc for the site name and tagline' do
       @view.title(:site => Proc.new { "Site Number #{2 + 2}" }, :tagline => Proc.new { "Tagline Number #{12 - 8}" })
-      @view.happy_title.should have_tag('title', 'Site Number 4 | Tagline Number 4')
+      expect(@view.happy_title).to have_tag('title', 'Site Number 4 | Tagline Number 4')
     end
 
     it 'should allow a proc for the site name and tagline from settings' do
       ActionView::Base.happy_title_setting(:site, Proc.new { "Site Number #{3 + 3}" })
       ActionView::Base.happy_title_setting(:tagline, Proc.new { "Tagline Number #{10 - 4}" })
-      @view.happy_title.should have_tag('title', 'Site Number 6 | Tagline Number 6')
+      expect(@view.happy_title).to have_tag('title', 'Site Number 6 | Tagline Number 6')
     end
 
   end
@@ -203,17 +203,17 @@ describe 'Happy Titles!' do
   describe 'reading the title method' do
 
     it 'should return an empty string when called with no args' do
-      @view.title.should == ''
+      expect(@view.title).to eq('')
     end
 
     it 'should return @page_title when @page_title is set and is called with no args' do
       @view.title('Happy Title!')
-      @view.title.should == 'Happy Title!'
+      expect(@view.title).to eq('Happy Title!')
     end
 
     it 'should not set the title when called with no args' do
       @view.title
-      @view.happy_title.should have_tag('title', 'My Site | My short, descriptive and witty tagline')
+      expect(@view.happy_title).to have_tag('title', 'My Site | My short, descriptive and witty tagline')
     end
 
   end
@@ -221,18 +221,18 @@ describe 'Happy Titles!' do
   describe 'showing the title' do
 
     it 'should output a valid title element' do
-      @view.happy_title.should have_tag('title')
+      expect(@view.happy_title).to have_tag('title')
     end
 
     describe 'with default settings' do
 
       it 'should use the default template when the page title is not set' do
-        @view.happy_title.should have_tag('title', 'My Site | My short, descriptive and witty tagline')
+        expect(@view.happy_title).to have_tag('title', 'My Site | My short, descriptive and witty tagline')
       end
 
       it 'should use the default template when the page title is set' do
         @view.title('Example Page Title')
-        @view.happy_title.should have_tag('title', 'Example Page Title | My Site')
+        expect(@view.happy_title).to have_tag('title', 'Example Page Title | My Site')
       end
 
     end
@@ -251,12 +251,12 @@ describe 'Happy Titles!' do
 
       it 'should render the title with a custom site' do
         ActionView::Base.happy_title_setting(:site, 'Custom Site')
-        @view.happy_title.should have_tag('title', 'Custom Site | My short, descriptive and witty tagline')
+        expect(@view.happy_title).to have_tag('title', 'Custom Site | My short, descriptive and witty tagline')
       end
 
       it 'should render the title with a custom tagline' do
         ActionView::Base.happy_title_setting(:tagline, 'My custom tagline...')
-        @view.happy_title.should have_tag('title', 'My Site | My custom tagline...')
+        expect(@view.happy_title).to have_tag('title', 'My Site | My custom tagline...')
       end
 
       describe '(templates)' do
@@ -276,12 +276,12 @@ describe 'Happy Titles!' do
           end
 
           it 'should render the template when the title is not set' do
-            @view.happy_title.should have_tag('title', '[My Site] My short, descriptive and witty tagline')
+            expect(@view.happy_title).to have_tag('title', '[My Site] My short, descriptive and witty tagline')
           end
 
           it 'should render the template when the title is set' do
             @view.title('Another example title')
-            @view.happy_title.should have_tag('title', '[My Site] Another example title')
+            expect(@view.happy_title).to have_tag('title', '[My Site] Another example title')
           end
 
         end
@@ -293,12 +293,12 @@ describe 'Happy Titles!' do
           end
 
           it 'should render the template when the title is not set' do
-            @view.happy_title.should have_tag('title', '[My Site] My short, descriptive and witty tagline')
+            expect(@view.happy_title).to have_tag('title', '[My Site] My short, descriptive and witty tagline')
           end
 
           it 'should render the alternate template when the title is set' do
             @view.title('Would of thought these titles would of got a bit funnier by now')
-            @view.happy_title.should have_tag('title', 'Would of thought these titles would of got a bit funnier by now at My Site')
+            expect(@view.happy_title).to have_tag('title', 'Would of thought these titles would of got a bit funnier by now at My Site')
           end
         end
 
@@ -309,12 +309,12 @@ describe 'Happy Titles!' do
           end
 
           it 'should render a custom template when the title is not set' do
-            @view.happy_title(:custom).should have_tag('title', '++My Site++')
+            expect(@view.happy_title(:custom)).to have_tag('title', '++My Site++')
           end
 
           it 'should render a custom template when the title is not set' do
             @view.title('Fraid not, I got nothing')
-            @view.happy_title(:custom).should have_tag('title', 'Fraid not, I got nothing ++My Site++')
+            expect(@view.happy_title(:custom)).to have_tag('title', 'Fraid not, I got nothing ++My Site++')
           end
 
         end
