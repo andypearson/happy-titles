@@ -1,4 +1,17 @@
-describe 'Happy Titles!' do
+describe HappyTitles do
+  subject { described_class }
+
+  describe '.config' do
+    it 'returns a config object' do
+      expect(subject.config).to be_a(subject::Config)
+    end
+
+    it 'always returns the same config object' do
+      expect(subject.config).to equal(subject.config)
+    end
+  end
+
+  # DRAGONS BELOW
 
   before do
     @view = ActionView::Base.new
@@ -40,13 +53,6 @@ describe 'Happy Titles!' do
   end
 
   describe 'default settings' do
-
-    it 'should have a default site setting' do
-      expect(ActionView::Base.happy_title_settings[:site]).to eq('My Site')
-    end
-    it 'should have a default tagline setting' do
-      expect(ActionView::Base.happy_title_settings[:tagline]).to eq('My short, descriptive and witty tagline')
-    end
 
     describe 'templates' do
 

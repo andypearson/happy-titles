@@ -1,6 +1,16 @@
-require File.join(File.dirname(__FILE__), 'happy-titles', 'railtie') if defined?(::Rails::Railtie)
+require 'happy-titles/railtie' if defined?(::Rails::Railtie)
+
+require 'happy-titles/config'
+require 'happy-titles/template'
 
 module HappyTitles
+  class TemplateNotFound < StandardError; end
+
+  def self.config
+    @config ||= Config.new
+  end
+
+  # DRAGONS BELOW
 
   attr_accessor :page_title
 
