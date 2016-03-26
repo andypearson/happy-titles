@@ -4,7 +4,7 @@ require 'rails'
 module HappyTitles
   class Railtie < Rails::Railtie
     initializer 'happy-titles.initialize' do
-      ActionView::Base.send :include, HappyTitles
+      ActionView::Base.send :include, HappyTitles::Helpers
     end
   end
 end

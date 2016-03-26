@@ -4,17 +4,27 @@ class HappyTitles::Config
   def initialize
     @site = DEFAULT_SITE
     @tagline = DEFAULT_TAGLINE
-    @templates = [HappyTitles::Template.new(:default)]
+    @templates = [default_template]
   end
 
   def template(key = :default)
     find_template(key) || raise_template_not_found(key)
   end
 
+  def templates(&block)
+    @templates.instance_eval(&block)
+  end
+
   private
 
-  DEFAULT_SITE = "My Site"
+  DEFAULT_SITE = "My site"
   DEFAULT_TAGLINE = "My short, descriptive and witty tagline"
+
+  DEFAULT_TEMPLATE_OPTIONS = {
+    name: :default,
+    with_title: ":title | :site",
+    without_title: ":site | :tagline"
+  }.freeze
 
   def find_template(key)
     @templates.find do |template|
@@ -29,5 +39,9 @@ class HappyTitles::Config
 
   def template_names
     @templates.collect(&:name).join(", ")
+  end
+
+  def default_template
+    HappyTitles::Template.new(**DEFAULT_TEMPLATE_OPTIONS)
   end
 end
