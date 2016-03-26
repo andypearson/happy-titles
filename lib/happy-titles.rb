@@ -1,9 +1,10 @@
-require 'happy-titles/railtie' if defined?(::Rails::Railtie)
+# frozen_string_literal: true
+require "happy-titles/railtie" if defined?(::Rails::Railtie)
 
-require 'happy-titles/config'
-require 'happy-titles/helpers'
-require 'happy-titles/template'
-require 'happy-titles/template_set'
+require "happy-titles/config"
+require "happy-titles/helpers"
+require "happy-titles/template"
+require "happy-titles/template_set"
 
 module HappyTitles
   class TemplateNotFound < StandardError; end

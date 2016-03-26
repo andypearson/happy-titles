@@ -1,3 +1,3 @@
 # TODO
 
-- [ ] Setup Rubocop
+- [x] Setup Rubocop

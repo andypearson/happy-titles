@@ -1,0 +1,56 @@
+AllCops:
+  TargetRubyVersion: 2.3
+
+  # Output settings
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+
+# Don't enforce comments classes
+Documentation:
+  Enabled: false
+
+# More flexible array alignment
+Style/IndentArray:
+  EnforcedStyle: consistent
+
+# More flexible hash alignment
+Style/IndentHash:
+  EnforcedStyle: consistent
+
+Metrics/AbcSize:
+  Exclude:
+    - 'spec/**/*'
+
+# Disable class length check for tests
+Metrics/ClassLength:
+  Exclude:
+    - 'spec/**/*'
+
+# Disable method length check for tests
+Metrics/MethodLength:
+  Exclude:
+    - 'spec/**/*'
+
+# 120 character width
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - 'spec/**/*'
+
+# Allow method names starting with 'get_'
+Style/AccessorMethodName:
+  Enabled: false
+
+# Allow non-ascii characters in comments - e.g. the 'em' dash
+Style/AsciiComments:
+  Enabled: false
+
+# Prefer double quotes
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# Ignore incorrectly named file
+# It's too much work to rename the gem now :(
+Style/FileName:
+  Exclude:
+    - 'lib/happy-titles.rb'

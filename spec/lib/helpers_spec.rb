@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 describe "HappyTitle Helpers" do
   let(:view) { ActionView::Base.new }
   let(:page_title) { view.page_title }

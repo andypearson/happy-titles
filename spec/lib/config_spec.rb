@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 describe HappyTitles::Config do
   subject { described_class.new }
 

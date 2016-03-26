@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 describe HappyTitles::Template do
   subject do
     described_class.new(
