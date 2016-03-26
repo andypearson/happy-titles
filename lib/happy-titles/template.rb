@@ -2,7 +2,7 @@ class HappyTitles::Template
   attr_reader :name
 
   def initialize(name:, without_title:, with_title:)
-    @name = name
+    @name = name.to_sym
     @with_title = with_title
     @without_title = without_title
   end

@@ -1,14 +1,24 @@
 describe HappyTitles::Template do
   subject do
     described_class.new(
-      name: :my_template,
+      name: name,
       with_title: ":title | :site",
       without_title: ":site | :tagline"
     )
   end
 
+  let(:name) { :my_template }
+
   it "has a name" do
     expect(subject.name).to eq(:my_template)
+  end
+
+  context "When name is a string" do
+    let(:name) { "my_template" }
+
+    it "changes the name to a symbol" do
+      expect(subject.name).to eq(:my_template)
+    end
   end
 
   describe "Rendering the template" do

@@ -4,26 +4,26 @@ describe "HappyTitle Helpers" do
 
   before do
     HappyTitles.configure do |config|
-      config.site = "My site"
-      config.tagline = "My tagline"
+      config.site = "Custom site"
+      config.tagline = "Custom tagline"
     end
   end
 
   it "renders the page title" do
-    expect(page_title).to eq("<title>My site | My tagline</title>")
+    expect(page_title).to eq("<title>Custom site | Custom tagline</title>")
   end
 
   context "when the title is set" do
     before do
-      view.title "My title"
+      view.title "Custom title"
     end
 
     it "returns the title" do
-      expect(view.title).to eq("My title")
+      expect(view.title).to eq("Custom title")
     end
 
     it "renders the page title" do
-      expect(page_title).to eq("<title>My title | My site</title>")
+      expect(page_title).to eq("<title>Custom title | Custom site</title>")
     end
   end
 end
