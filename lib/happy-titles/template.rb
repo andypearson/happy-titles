@@ -8,9 +8,9 @@ class HappyTitles::Template
   end
 
   def render(title:, tagline:, site:)
-    template = title ? with_title : without_title
+    template = (title && with_title) ? with_title : without_title
     substitute_placeholders(template, {
-      title: title,
+      title: title || tagline,
       tagline: tagline,
       site: site
     })

@@ -2,12 +2,14 @@ describe HappyTitles::Template do
   subject do
     described_class.new(
       name: name,
-      with_title: ":title | :site",
-      without_title: ":site | :tagline"
+      with_title: with_title,
+      without_title: without_title
     )
   end
 
   let(:name) { :my_template }
+  let(:with_title) { ":title | :site" }
+  let(:without_title) { ":site | :tagline" }
 
   it "has a name" do
     expect(subject.name).to eq(:my_template)
@@ -42,6 +44,23 @@ describe HappyTitles::Template do
 
       it "renders with a title" do
         expect(render).to eq("My title | My site")
+      end
+    end
+
+    context "when the template only has a single format" do
+      let(:with_title) { nil }
+      let(:without_title) { ":site (:title)" }
+
+      it "renders with a title" do
+        expect(render).to eq("My site (My tagline)")
+      end
+
+      context "When the title is set" do
+        let(:title) { "My title" }
+
+        it "renders with a title" do
+          expect(render).to eq("My site (My title)")
+        end
       end
     end
   end
